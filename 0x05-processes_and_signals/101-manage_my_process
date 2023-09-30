@@ -8,13 +8,13 @@
 #     Stops manage_my_process
 #     Deletes the file /var/run/my_process.pid
 #     Displays "manage_my_process stopped"
-#   When passing the argument restart:
+#   When passing the argument restart
 #     Stops manage_my_process
 #     Deletes the file /var/run/my_process.pid
 #     Starts manage_my_process
 #     Creates a file containing its PID in /var/run/my_process.pid
 #     Displays "manage_my_process restarted"
-#   Displays "Usage: manage_my_process {start|stop|restart}" if any other argument or no argument is passed
+#   Displays Usage: manage_my_process {start|stop|restart} if any other argument or no argument is passed
 
 # Function to start manage_my_process
 start_process() {

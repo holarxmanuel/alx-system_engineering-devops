@@ -1,18 +1,9 @@
 #!/usr/bin/env bash
-# Function to write "I am alive!" to the file and sleep for 2 seconds
-write_to_file() {
-    while true; do
-        echo "I am alive!" >> /tmp/my_process
-        sleep 2
-    done
-}
+# Writes "I am alive" to the /tmp/my_process file indefinitely.
+#   Sleeps for two seconds between each message.
 
-# Trap signals and handle them
-trap 'echo "Y U no love me?!"' SIGINT
-trap 'echo "I hate the kill command" && rm -f /var/run/myscript.pid && exit' SIGTERM SIGQUIT
-
-# Write the script's PID to a file
-echo "$$" > /var/run/myscript.pid
-
-# Start writing to the file
-write_to_file
+while true
+do
+  echo "I am alive" >> /tmp/my_process
+  sleep 2
+done

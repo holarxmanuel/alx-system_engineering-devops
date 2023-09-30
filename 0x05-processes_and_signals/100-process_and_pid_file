@@ -2,8 +2,8 @@
 # Does the following:
 #   Create a file /var/run/myscript.pid containing the script PID.
 #   Displays "To infinity and beyond" indefinitely
-#   Displays "I hate the kill command" upon receiving a SIGTERM
-#   Displays "Y U no love me?!" upon receiving a SIGINT
+#   Displays "I hate the kill command" when SIGTERM is received
+#   Displays "Y U no love me?!" when SIGINT is rceived
 #   Deletes the file /var/run/myscript.pid and terminates upon
 #+  receiving a SIGQUIT or SIGTERM.
 

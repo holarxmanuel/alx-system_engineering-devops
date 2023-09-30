@@ -1,41 +1,34 @@
 #!/usr/bin/env bash
-# Manages the manage_my_process script.
-#   When provided with the argument `start`:
-#     1. Initiates the manage_my_process script
-#     2. Generates a file containing its PID in /var/run/my_process.pid
-#     3. Displays "manage_my_process initiated"
-#   When provided with the argument `stop`:
-#     1. Terminates the manage_my_process script
-#     2. Deletes the file /var/run/my_process.pid
-#     3. Displays "manage_my_process terminated"
-#   When provided with the argument `restart`:
-#     1. Terminates the manage_my_process script
-#     2. Deletes the file /var/run/my_process.pid
-#     3. Initiates the manage_my_process script
-#     4. Generates a file containing its PID in /var/run/my_process.pid
-#     5. Displays "manage_my_process restarted"
-#   If any other or no arguments are provided, it displays
-#   "Usage: manage_my_process {start|stop|restart}"
+# Bash script  creates a subprocess
+. /lib/lsb/init-functions
 
-if [ "${1}" == "start" ]
-then
+PIDFILE=/var/run/my_process.pid
+
+start() {
     ./manage_my_process &
-    touch /var/run/my_process.pid
-    echo "$!" > /var/run/my_process.pid
-    echo "manage_my_process initiated"
-elif [ "${1}" == "stop" ]
-then
-    echo "manage_my_process terminated"
-    kill "$(cat /var/run/my_process.pid)"
-    rm /var/run/my_process.pid
-elif [ "${1}" == "restart" ]
-then
-    kill "$(cat /var/run/my_process.pid)"
-    rm /var/run/my_process.pid
-    ./manage_my_process &
-    touch /var/run/my_process.pid
-    echo "$!" > /var/run/my_process.pid
-    echo "manage_my_process restarted"
-else
-    echo "Usage: manage_my_process {start|stop|restart}"
-fi
+    echo "$!" > "$PIDFILE"
+}
+
+stop() {
+    sudo kill -15 "$(cat "$PIDFILE")" && rm -f "$PIDFILE"
+}
+
+case "$1" in 
+    start)
+       start
+       echo "manage_my_process started"
+       ;;
+    stop)
+       stop
+       echo "manage_my_process stopped"
+       ;;
+    restart)
+       stop
+       start
+       echo "manage_my_process restarted"
+       ;;
+    *)
+       echo "Usage: manage_my_process {start|stop|restart}"
+esac
+
+exit 0
